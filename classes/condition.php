@@ -116,14 +116,9 @@ class condition extends \core_availability\condition {
     }
 
     public function get_description($full, $not, \core_availability\info $info) {
-        // Get name for module.
-        $modc = get_courses();
+        global $DB;
 
-        foreach ($modc as $modcs) {
-            if($modcs->id == $this->courseid){
-                $modname = $modcs->fullname;
-            }
-        }
+        $modname = $DB->get_field('course', 'fullname', ['id' => $this->courseid]);
 
         // Work out which lang string to use.
         if ($not) {
