@@ -48,7 +48,7 @@ class condition extends \core_availability\condition {
         if (isset($structure->cm) && is_number($structure->cm)) {
             $this->courseid = (int)$structure->cm;
         } else {
-            throw new \coding_exception('Missing or invalid ->cm for completion condition');
+            //throw new \coding_exception('Missing or invalid ->cm for completion condition');
         }
 
         // Get expected completion.
@@ -56,7 +56,7 @@ class condition extends \core_availability\condition {
                 array(COMPLETION_COMPLETE, COMPLETION_INCOMPLETE))) {
             $this->expectedcompletion = $structure->e;
         } else {
-            throw new \coding_exception('Missing or invalid ->e for completion condition');
+            //throw new \coding_exception('Missing or invalid ->e for completion condition');
         }
     }
 
@@ -83,14 +83,18 @@ class condition extends \core_availability\condition {
         
         global $DB;
 
-        $course = $this->courseid;
-        $sqlcoursecomplete = "SELECT * FROM {course_completions} as a WHERE a.course = $course AND a.userid = $userid";
-        $datacompletes = $DB->get_records_sql($sqlcoursecomplete);
-        $allow = false;
-        foreach($datacompletes as $datacomplete){
+        if (empty($this->courseid)) {
+            $allow = false;
+        } else {
+            $course = $this->courseid;
+            $sqlcoursecomplete = "SELECT * FROM {course_completions} as a WHERE a.course = $course AND a.userid = $userid";
+            $datacompletes = $DB->get_records_sql($sqlcoursecomplete);
+            $allow = false;
+            foreach ($datacompletes as $datacomplete) {
 
-            if($datacomplete->timecompleted>0){
-                $allow = true; 
+                if ($datacomplete->timecompleted > 0) {
+                    $allow = true;
+                }
             }
         }
         return $allow;
