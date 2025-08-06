@@ -24,9 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2023051700.02;
+$plugin->component = 'availability_othercompleted';
+$plugin->version = 2023051701;      // (Date: YYYYMMDDXX)
+$plugin->release = '4.5.0.0.0';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 2022092700;
-$plugin->requires = 2019051100;
-$plugin->component = 'availability_othercompleted';                                                                                                                                                
-
+$plugin->requires = 2022112800.00;  // Moodle 4.1 (Build: 20221128)  - 4.5.5 (Build: 20250609)
